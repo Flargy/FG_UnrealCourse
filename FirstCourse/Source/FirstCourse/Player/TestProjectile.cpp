@@ -2,6 +2,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 ATestProjectile::ATestProjectile()
 {
@@ -31,7 +32,25 @@ void ATestProjectile::Tick(float DeltaTime)
 
 	if (Hit.bBlockingHit)
 	{
-		PrimaryActorTick.SetTickFunctionEnable(false);
+		OnExplode(Hit);
+		
+		TArray<UPrimitiveComponent*> OverlappedComponents;
+
+		UKismetSystemLibrary::SphereOverlapComponents(this, GetActorLocation(), 200.f, 
+			ExplosionOverlapTypes, UPrimitiveComponent::StaticClass(), TArray<AActor*>(),
+			OverlappedComponents);
+
+		UKismetSystemLibrary::DrawDebugSphere(this, GetActorLocation(), 200.f, 12, 
+			FLinearColor::Red, 5.f, 1.f);
+
+		for (UPrimitiveComponent* Component : OverlappedComponents)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Hitting actor '%s' :: '%s'"), *Component->GetOwner()->GetName(), *Component->GetName());
+			Component->AddRadialImpulse(GetActorLocation(), 200.f, 200000.f, ERadialImpulseFalloff::RIF_Linear);
+		}
+
+		Destroy();
+		return;
 	}
 
 	FRotator FacingRotation = UKismetMathLibrary::MakeRotFromX(Velocity);

@@ -1,23 +1,23 @@
 #pragma once
 #include "GameFramework/Actor.h"
-#include "TestProjectile.generated.h"
+#include "TestProjectileV2.generated.h"
 
 class UStaticMeshComponent;
 class USphereComponent;
 
 UCLASS()
-class ATestProjectile : public AActor
+class ATestProjectileV2 : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	ATestProjectile();
+	ATestProjectileV2();
 
 	void BeginPlay();
 	void Tick(float DeltaTime);
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void OnExplode(const FHitResult& SurfaceHit);
+	void Explode(const FHitResult& Hit);
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Mesh;
@@ -26,6 +26,4 @@ public:
 	USphereComponent* Sphere;
 
 	FVector Velocity;
-	UPROPERTY(EditAnywhere)
-	TArray<TEnumAsByte<EObjectTypeQuery>> ExplosionOverlapTypes;
 };

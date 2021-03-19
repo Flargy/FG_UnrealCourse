@@ -3,7 +3,7 @@
 #include "TestProjectileV2.generated.h"
 
 class UStaticMeshComponent;
-class USphereComponent;
+class UBoxComponent;
 
 UCLASS()
 class ATestProjectileV2 : public AActor
@@ -16,14 +16,20 @@ public:
 	void BeginPlay();
 	void Tick(float DeltaTime);
 
+	UFUNCTION()
+	void SetSpawnImpulse(FVector Location);
+
 	UFUNCTION(BlueprintImplementableEvent)
-	void Explode(const FHitResult& Hit);
+	void Explode();
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Mesh;
 
 	UPROPERTY(VisibleAnywhere)
-	USphereComponent* Sphere;
+	UBoxComponent* Box;
 
 	FVector Velocity;
+
+	const float Lifespan = 3.f;
+	float LifeTimer = 0.f;
 };

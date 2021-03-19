@@ -34,7 +34,8 @@ private:
 	void HandleMoveRight(float value);
 	void HandleLookRight(float value);
 	void HandleLookUp(float value);
-	void HandleWeaponSwap(float value);
 
-
+	void HandleWeaponSwap(int value);
+	void SelectWeapon1();
+	void SelectWeapon2();
 };

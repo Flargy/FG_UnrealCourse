@@ -1,13 +1,14 @@
 #include "TestProjectileV2.h"
 #include "Components/StaticMeshComponent.h"
-#include "Components/SphereComponent.h"
+#include "Components/BoxComponent.h"
 
 
 ATestProjectileV2::ATestProjectileV2()
 {
-	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
-	Sphere->SetCollisionProfileName(TEXT("BlockAllDynamic"));
-	RootComponent = Sphere;
+	PrimaryActorTick.bCanEverTick = true;
+	Box = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
+	Box->SetCollisionProfileName(TEXT("PhysicsActor"));
+	RootComponent = Box;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	Mesh->SetCollisionProfileName(TEXT("NoCollision"));
@@ -22,5 +23,16 @@ void ATestProjectileV2::BeginPlay()
 
 void ATestProjectileV2::Tick(float DeltaTime)
 {
+	LifeTimer += DeltaTime;
 
+	if (LifeTimer >= Lifespan)
+	{
+		Explode();
+		Destroy();
+	}
+}
+
+void ATestProjectileV2::SetSpawnImpulse(FVector Location)
+{
+	Box->AddRadialImpulse(Location, 50.f, 9000.f, ERadialImpulseFalloff::RIF_Constant);
 }

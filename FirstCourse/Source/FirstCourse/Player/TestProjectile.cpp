@@ -3,6 +3,9 @@
 #include "Components/SphereComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "FirstCourse/Enemy/TestEnemy.h"
+#include "ProjectileResponseComponent.h"
+
 
 ATestProjectile::ATestProjectile()
 {
@@ -21,7 +24,7 @@ ATestProjectile::ATestProjectile()
 void ATestProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	Velocity = GetActorForwardVector() * 1000;
+	Velocity = GetActorForwardVector() * 1500;
 }
 
 void ATestProjectile::Tick(float DeltaTime)
@@ -47,7 +50,26 @@ void ATestProjectile::Tick(float DeltaTime)
 		{
 			UE_LOG(LogTemp, Log, TEXT("Hitting actor '%s' :: '%s'"), *Component->GetOwner()->GetName(), *Component->GetName());
 			Component->AddRadialImpulse(GetActorLocation(), 200.f, 200000.f, ERadialImpulseFalloff::RIF_Linear);
+
+
 		}
+
+		TArray<AActor*> OverlappedActors;
+		UKismetSystemLibrary::SphereOverlapActors(this, GetActorLocation(), 200.f, ExplosionOverlapTypes, ATestEnemy::StaticClass(), TArray<AActor*>(), OverlappedActors);
+
+		for (auto* Enemy :OverlappedActors)
+		{
+			// If we hit enemy we cast the hit to an enemy
+			/*ATestEnemy* HitEnemy = Cast<ATestEnemy>(Enemy);
+			HitEnemy->Destroy();*/
+
+			UProjectileResponseComponent* ResponseComp = Enemy->FindComponentByClass<UProjectileResponseComponent>();
+			if (ResponseComp)
+			{
+				ResponseComp->OnProjectileHit.Broadcast();
+			}
+		}
+		
 
 		Destroy();
 		return;

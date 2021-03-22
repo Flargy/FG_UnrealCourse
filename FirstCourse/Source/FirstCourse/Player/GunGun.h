@@ -19,13 +19,12 @@ public:
 	void BeginPlay();
 	void Tick(float DeltaTime);
 	
-	UFUNCTION()
 	void SetSpawnImpulse(FVector location);
+	void Initialize(int Counter);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void Explode();
 
-	void Initialize(int Counter);
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* Mesh1;

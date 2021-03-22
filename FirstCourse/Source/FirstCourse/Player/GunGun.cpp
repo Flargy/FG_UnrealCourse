@@ -45,6 +45,7 @@ void AGunGun::Tick(float DeltaTime)
 		AmmoCapacity--;
 		FTransform ImpulseLocation = FireLocation->GetComponentTransform();
 		ShotTimer = 0;
+
 		if (SweetChristDontSetMeToTrue == false || AmmoCapacity == 0)
 		{
 			ATestProjectileV2* projectile = GetWorld()->SpawnActor<ATestProjectileV2>(Ammo, ImpulseLocation);

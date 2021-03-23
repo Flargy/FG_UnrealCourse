@@ -13,7 +13,7 @@ public:
 	AStationaryEnemy();
 
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadWrite)
 		UCapsuleComponent* Body;
 
 	UPROPERTY(EditDefaultsOnly)

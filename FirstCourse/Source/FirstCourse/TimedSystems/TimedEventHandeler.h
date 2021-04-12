@@ -8,13 +8,15 @@ class ATimedEventHandeler : public AActor
 	GENERATED_BODY()
 
 public:
+	ATimedEventHandeler();
+
 	void Tick(float DeltaTime);
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void OnTimedEvent();
+	void OnTimedEvent();
 
 private:
 	UPROPERTY(EditDefaultsOnly)
-		float EventTimeIntervall = 5.f;
+	float EventTimeIntervall = 5.f;
 	float TimeCounter = 0.f;
 };

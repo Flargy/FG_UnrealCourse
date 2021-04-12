@@ -33,6 +33,12 @@ void ATestPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 }
 
+void ATestPlayer::BeginPlay()
+{
+	Super::BeginPlay();
+	//Weapon = GetWorld()->SpawnActor<AWeaponBase>(WeaponClass);
+}
+
 void ATestPlayer::HandleJumpInput()
 {
 	Jump();
@@ -77,6 +83,7 @@ void ATestPlayer::SelectWeapon2()
 
 void ATestPlayer::HandleShoot()
 {
+
 	FTransform SpawnTransform;
 	SpawnTransform.SetLocation(Camera->GetComponentLocation() + Camera->GetForwardVector() * 80);
 	SpawnTransform.SetRotation(Camera->GetComponentRotation().Quaternion());

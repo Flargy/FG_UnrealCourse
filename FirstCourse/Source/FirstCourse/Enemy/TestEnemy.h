@@ -4,6 +4,7 @@
 
 class USphereComponent;
 class UProjectileResponseComponent;
+class UEnemyHealthComponent;
 
 UCLASS()
 class ATestEnemy : public AActor
@@ -18,11 +19,16 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void OnTakeDamage();
 
+	void Die();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	USphereComponent* Sphere;
 
 	UPROPERTY(EditDefaultsOnly)
 	UProjectileResponseComponent* Response;
+
+	UPROPERTY(EditDefaultsOnly)
+	UEnemyHealthComponent* HealthComponent;
 
 	UPROPERTY(EditInstanceOnly)
 	float Speed = 50.f;

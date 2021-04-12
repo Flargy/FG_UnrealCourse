@@ -3,6 +3,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "FirstCourse/Player/ProjectileResponseComponent.h"
+#include "EnemyHealthComponent.h"
 
 ATestEnemy::ATestEnemy()
 {
@@ -12,7 +13,9 @@ ATestEnemy::ATestEnemy()
 	RootComponent = Sphere;
 
 	Response = CreateDefaultSubobject<UProjectileResponseComponent>(TEXT("ResponseComponent"));
+	HealthComponent = CreateDefaultSubobject<UEnemyHealthComponent>(TEXT("HealthComponent"));
 	//Response->OnProjectileHit.AddDynamic(this, classname::functionToBind);
+	//HealthComponent->OnDeath.AddDynamic(this, &ATestEnemy::Die);
 }
 
 void ATestEnemy::Tick(float DeltaTime)
@@ -34,4 +37,9 @@ void ATestEnemy::Tick(float DeltaTime)
 void ATestEnemy::OnTakeDamage_Implementation()
 {
 
+}
+
+void ATestEnemy::Die()
+{
+	Destroy();
 }

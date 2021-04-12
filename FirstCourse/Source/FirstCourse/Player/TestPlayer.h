@@ -5,6 +5,7 @@
 class ATestProjectile;
 class UCameraComponent;
 class AGunGun;
+class AWeaponBase;
 
 UCLASS()
 class ATestPlayer : public ACharacter
@@ -14,9 +15,14 @@ class ATestPlayer : public ACharacter
 public:
 	ATestPlayer();
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ATestProjectile> ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AWeaponBase> WeaponClass;
+	AWeaponBase* Weapon;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AGunGun> GunGunClass;
